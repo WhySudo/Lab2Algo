@@ -91,7 +91,6 @@ template<typename T>
 Array<T>::~Array() {
     for (int i = 0; i < _dataSize; ++i) {
         _dataPtr[i].~T();
-        new(_dataPtr + i) T();
     }
     if(_dataPtr != nullptr)
         free(_dataPtr);
