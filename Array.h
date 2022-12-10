@@ -143,7 +143,7 @@ Array<T> &Array<T>::operator=(Array &&other)  noexcept {
 
 template<typename T>
 int Array<T>::insert(const T &value) {
-    if (_dataSize >= _capacity) {
+    if (_dataSize == _capacity) {
         _capacity *= _capacityExtension;
         T *tempPtr = (T *) malloc(_capacity * sizeof(T));
         for (int i = 0; i < _dataSize; i++) {
@@ -159,7 +159,7 @@ int Array<T>::insert(const T &value) {
 }
 template<typename T>
 int Array<T>::insert(int index, const T &value) {
-    if (_dataSize >= _capacity) {
+    if (_dataSize == _capacity) {
         _capacity *= _capacityExtension;
         T *tempPtr = (T*)malloc(_capacity * sizeof(T));
         for (int i = 0; i < index; i++) {
@@ -178,9 +178,7 @@ int Array<T>::insert(int index, const T &value) {
             new(_dataPtr+i) T(std::move(_dataPtr[i - 1]));
             _dataPtr[i-1].~T();
         }
-        if(_dataSize!=index){
-            _dataPtr[index].~T();
-        }
+        _dataPtr[index].~T();
         new(_dataPtr + index) T(value);
     }
     _dataSize++;

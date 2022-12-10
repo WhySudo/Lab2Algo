@@ -51,7 +51,8 @@ protected:
     template<typename T>
     void ReverseIteratorTest(T *targetItems, int itemsCount){
         Array<T> a;
-        for (int i = 0; i < itemsCount; i++) {
+        a.insert(targetItems[0]);
+        for (int i = 1; i < itemsCount; i++) {
             a.insert(0, targetItems[i]);
         }
         typename Array<T>::Iterator iter = a.reverseIterator();
