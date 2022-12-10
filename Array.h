@@ -177,6 +177,7 @@ int Array<T>::insert(int index, const T &value) {
     } else {
         for (int i = _dataSize; i >= index + 1; i--) {
             new(_dataPtr+i) T(std::move(_dataPtr[i - 1]));
+            _dataPtr[i-1].~T();
         }
         if(_dataSize!=index){
             _dataPtr[index].~T();
