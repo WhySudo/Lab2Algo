@@ -148,7 +148,6 @@ int Array<T>::insert(const T &value) {
         T *tempPtr = (T *) malloc(_capacity * sizeof(T));
         for (int i = 0; i < _dataSize; i++) {
             new(tempPtr + i) T(std::move(_dataPtr[i]));
-            //tempPtr[i]
             _dataPtr[i].~T();
         }
         free(_dataPtr);
@@ -196,9 +195,12 @@ void Array<T>::remove(int index) {
         throw runtime_error("Out of bounds");
     }
     for (int i = index; i < _dataSize - 1; ++i) {
-        _dataPtr[i] = std::move(_dataPtr[i + 1]);
+        _dataPtr[i].~T();
+        new(_dataPtr + i) T(std::move(_dataPtr[i + 1]));
     }
+    _dataPtr[_dataSize-1].~T();
     _dataSize -= 1;
+
 }
 
 template<typename T>
